@@ -1,0 +1,25 @@
+<div class="cta-group">
+    <div class="cta-card secondary">
+        <p>Find your code</p>
+        <button onclick="openSearch()" class="btn-outline">Search for SMART USSD</button>
+    </div>
+
+    <div class="cta-card primary">
+        <p>Dial <strong>*5050#</strong> or Click below</p>
+        <a href="https://wa.me/2348157505037?text=*5050*ACTIVATE%23" class="btn pulse">Activate SmartUSSD</a>
+    </div>
+</div>
+
+<div id="searchOverlay" class="search-overlay">
+    <div class="search-content">
+        <span class="close-btn" onclick="closeSearch()">&times;</span>
+        <h2>Search for your Bank Code</h2>
+        <input type="text" id="bankSearch" placeholder="Type your bank name (e.g. Zenith, GTB)..." onkeyup="filterBanks()">
+        <ul id="bankList">
+            <li>Zenith Bank - *5050*96#</li>
+            <li>GTBank - *5050*737#</li>
+            <li>Access Bank - *5050*901#</li>
+            <li>UBA - *5050*919#</li>
+        </ul>
+    </div>
+</div>
