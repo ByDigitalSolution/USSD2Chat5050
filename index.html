@@ -17,7 +17,6 @@
             --phone-border: #1a1a1a;
         }
 
-        /* LIGHT MODE OVERRIDES */
         body.light-theme {
             --dark-bg: #f8fafc;
             --primary: #e2e8f0;
@@ -28,88 +27,46 @@
         * { margin: 0; padding: 0; box-sizing: border-box; transition: background 0.3s, color 0.3s; }
         body { font-family: 'Poppins', sans-serif; background: var(--dark-bg); color: var(--text-main); overflow-x: hidden; }
 
-        /* THEME TOGGLE BUTTON */
         .theme-toggle {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 1000;
-            background: var(--secondary);
-            border: none;
-            padding: 10px 15px;
-            border-radius: 30px;
-            cursor: pointer;
-            font-weight: bold;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            position: fixed; top: 20px; right: 20px; z-index: 1000;
+            background: var(--secondary); border: none; padding: 10px 15px;
+            border-radius: 30px; cursor: pointer; font-weight: bold;
         }
 
-        .hero-section {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            padding: 60px 5%;
-        }
-
-        .container {
-            max-width: 1300px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 40px;
-            flex-wrap: wrap;
-        }
+        .hero-section { min-height: 100vh; display: flex; align-items: center; padding: 60px 5%; }
+        .container { max-width: 1300px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 40px; flex-wrap: wrap; }
 
         .content { flex: 1; min-width: 320px; z-index: 5; }
-        .brand { font-weight: 900; font-size: 1.2rem; color: var(--secondary); margin-bottom: 10px; text-transform: uppercase; }
         h1 { font-size: clamp(2.2rem, 5vw, 4rem); font-weight: 900; line-height: 1.1; margin-bottom: 15px; }
         h1 span { color: var(--secondary); }
 
         .instruction-box {
-            background: var(--instruction-bg);
-            border-left: 4px solid var(--secondary);
-            padding: 15px;
-            margin: 20px 0;
-            border-radius: 0 10px 10px 0;
+            background: var(--instruction-bg); border-left: 4px solid var(--secondary);
+            padding: 15px; margin: 20px 0; border-radius: 0 10px 10px 0;
         }
 
-        .dial-text {
-            font-size: 3rem; font-weight: 900; color: var(--text-main);
-            background: rgba(255,255,255,0.1); padding: 5px 25px;
-            border-radius: 15px; border: 3px solid var(--secondary);
-            animation: textPulse 2s infinite;
-            display: inline-block;
-            margin-bottom: 20px;
-        }
-
-        @keyframes textPulse {
-            0% { box-shadow: 0 0 0 0px rgba(37, 211, 102, 0.7); }
-            70% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
-            100% { box-shadow: 0 0 0 0px rgba(37, 211, 102, 0); }
-        }
-
-        .cta-group { display: flex; gap: 10px; margin-top: 10px; }
+        /* --- BUTTON STYLES --- */
+        .cta-group { display: flex; gap: 10px; margin-top: 20px; }
         .btn {
             flex: 1; padding: 18px 10px; border-radius: 50px;
             text-decoration: none; font-weight: 800; font-size: 0.85rem;
-            border: none; text-align: center; text-transform: uppercase;
+            border: none; text-align: center; text-transform: uppercase; cursor: pointer;
         }
         .btn-activate { background: var(--secondary); color: white; }
         .btn-search { background: transparent; border: 2px solid var(--secondary); color: var(--secondary); }
 
-        /* --- NEON DARK PHONE --- */
+        /* --- VISUALS --- */
         .visual-wrapper { flex: 1; position: relative; display: flex; justify-content: center; align-items: center; min-width: 400px; height: 600px; }
         .phone-mockup {
             width: 280px; height: 530px; background: #0b141a; 
             border: 10px solid var(--phone-border); border-radius: 40px; z-index: 10;
             overflow: hidden; display: flex; flex-direction: column;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
         }
 
         .chat-area { flex: 1; padding: 20px; display: flex; flex-direction: column; gap: 15px; }
         .msg { padding: 12px; border-radius: 15px; font-size: 0.85rem; max-width: 85%; opacity: 0; }
         .msg-user { background: #005c4b; color: white; align-self: flex-end; animation: msgFade 6s infinite; }
-        .msg-bot { background: var(--neon); color: black; align-self: flex-start; animation: msgFade 6s infinite 2s; box-shadow: 0 0 15px var(--neon); font-weight: bold;}
+        .msg-bot { background: var(--neon); color: black; align-self: flex-start; animation: msgFade 6s infinite 2s; font-weight: bold; }
 
         @keyframes msgFade {
             0%, 10% { opacity: 0; transform: translateY(10px); }
@@ -117,62 +74,74 @@
             100% { opacity: 0; }
         }
 
-        .orbit { position: absolute; width: 450px; height: 450px; border: 2px dashed var(--secondary); border-radius: 50%; animation: rotate 20s linear infinite; opacity: 0.3; }
-        .icon-item { position: absolute; width: 50px; height: 50px; background: white; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 1.5rem; animation: reverse-rotate 20s linear infinite; }
+        /* --- SEARCH OVERLAY --- */
+        .overlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 16, 33, 0.95); z-index: 2000;
+            justify-content: center; align-items: center; backdrop-filter: blur(8px);
+        }
+        .search-box { background: white; padding: 40px; border-radius: 25px; width: 90%; max-width: 500px; text-align: center; color: #333; }
 
         @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        @keyframes reverse-rotate { from { transform: rotate(0deg); } to { transform: rotate(-360deg); } }
+        .orbit { position: absolute; width: 450px; height: 450px; border: 2px dashed var(--secondary); border-radius: 50%; animation: rotate 20s linear infinite; opacity: 0.3; }
 
         @media (max-width: 768px) {
-            .visual-wrapper { min-width: 100%; height: 450px; transform: scale(0.7); }
-            .theme-toggle { top: auto; bottom: 20px; }
+            .visual-wrapper { min-width: 100%; height: 400px; transform: scale(0.7); }
         }
     </style>
 </head>
-<body>
+<body class="dark-theme">
 
-    <button class="theme-toggle" onclick="toggleTheme()">🌓 Switch Theme</button>
+    <button class="theme-toggle" onclick="toggleTheme()">🌓 Theme</button>
 
     <section class="hero-section">
         <div class="container">
             <div class="content">
                 <div class="brand">DigitalSolution®</div>
-                <h1>Fast Banking.<br><span>Neon Mode.</span></h1>
+                <h1>Fast Banking.<br><span>Go Smart.</span></h1>
                 
-                <div class="dial-text">*5050#</div>
-
                 <div class="instruction-box">
-                    <p>Activation Command:</p>
-                    <h2>*5050*ACTIVATE# to +2348157505037</h2>
+                    <p>Activation Direct Line:</p>
+                    <h2>+234 815 750 5037</h2>
                 </div>
                 
                 <div class="cta-group">
-                    <a href="https://wa.me/2348157505037?text=*5050*ACTIVATE%23" class="btn btn-activate">Activate Now</a>
-                    <button class="btn btn-search">Search Code</button>
+                    <a href="https://gocbt.gemquests.com" class="btn btn-activate">Activate SmartUSSD</a>
+                    <button class="btn btn-search" onclick="openSearch()">Search for USSD</button>
                 </div>
             </div>
 
             <div class="visual-wrapper">
                 <div class="phone-mockup">
-                    <div style="background: #202c33; color: white; padding: 10px; font-size: 0.8rem;">DigitalSolution Bot</div>
+                    <div style="background: #202c33; color: white; padding: 10px; font-size: 0.8rem;">GemQuests AI Bot</div>
                     <div class="chat-area">
                         <div class="msg msg-user">*5050*ACTIVATE#</div>
-                        <div class="msg msg-bot">Success! Your SMART-USSD Warehouse is LIVE ⚡</div>
+                        <div class="msg msg-bot">Redirecting to Activation Portal... ⚡</div>
                     </div>
                 </div>
-                <div class="orbit">
-                    <div class="icon-item" style="top: -25px; left: 50%; margin-left: -25px;">💰</div>
-                    <div class="icon-item" style="bottom: -25px; left: 50%; margin-left: -25px;">🧾</div>
-                    <div class="icon-item" style="left: -25px; top: 50%; margin-top: -25px;">🔐</div>
-                    <div class="icon-item" style="right: -25px; top: 50%; margin-top: -25px;">🏦</div>
-                </div>
+                <div class="orbit"></div>
             </div>
         </div>
     </section>
 
+    <div class="overlay" id="searchOverlay">
+        <div class="search-box">
+            <h2 style="margin-bottom: 10px;">USSD Directory</h2>
+            <p>Looking for a specific bank code?</p>
+            <input type="text" placeholder="Enter Bank Name..." style="width: 100%; padding: 15px; margin: 20px 0; border-radius: 10px; border: 1px solid #ddd;">
+            
+            <button class="btn btn-activate" onclick="redirectSearch()" style="width: 100%;">Close & View All Codes</button>
+        </div>
+    </div>
+
     <script>
-        function toggleTheme() {
-            document.body.classList.toggle('light-theme');
+        function toggleTheme() { document.body.classList.toggle('light-theme'); }
+        
+        function openSearch() { document.getElementById('searchOverlay').style.display = 'flex'; }
+        
+        // Custom redirect for the close button
+        function redirectSearch() {
+            window.location.href = "https://ussdsearch.com";
         }
     </script>
 </body>
