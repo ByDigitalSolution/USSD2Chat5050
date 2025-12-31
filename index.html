@@ -1,25 +1,237 @@
-<div class="cta-group">
-    <div class="cta-card secondary">
-        <p>Find your code</p>
-        <button onclick="openSearch()" class="btn-outline">Search for SMART USSD</button>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DigitalSolution® | *5050# SMART-USSD</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        /* --- CSS STYLES --- */
+        :root {
+            --primary: #003366;
+            --secondary: #25D366;
+            --dark: #001a33;
+            --light: #f0f4f8;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Poppins', sans-serif; background: var(--light); color: #333; overflow-x: hidden; }
+
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, var(--dark) 0%, var(--primary) 100%);
+            color: white;
+            padding: 50px 5%;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 50px;
+            flex-wrap: wrap;
+        }
+
+        .content { flex: 1; min-width: 320px; }
+        .brand { font-weight: 800; font-size: 1.2rem; color: var(--secondary); margin-bottom: 20px; }
+        h1 { font-size: 3rem; line-height: 1.2; margin-bottom: 20px; }
+        h1 span { color: var(--secondary); }
+
+        /* --- CTA BUTTONS --- */
+        .cta-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: 0.3s;
+            cursor: pointer;
+            border: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-activate {
+            background: var(--secondary);
+            color: white;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+        }
+
+        .btn-search {
+            background: transparent;
+            border: 2px solid white;
+            color: white;
+        }
+
+        .btn:hover { transform: translateY(-3px); opacity: 0.9; }
+
+        .pulse { animation: pulse-animation 2s infinite; }
+        @keyframes pulse-animation {
+            0% { box-shadow: 0 0 0 0px rgba(37, 211, 102, 0.4); }
+            70% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
+            100% { box-shadow: 0 0 0 0px rgba(37, 211, 102, 0); }
+        }
+
+        /* --- VISUAL ORBIT --- */
+        .visual-wrapper {
+            flex: 1;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-width: 400px;
+            height: 500px;
+        }
+
+        .phone-mockup {
+            width: 220px;
+            height: 450px;
+            background: #fff;
+            border: 8px solid #111;
+            border-radius: 35px;
+            z-index: 10;
+            position: relative;
+            animation: float 4s ease-in-out infinite;
+            transition: transform 0.5s ease;
+        }
+
+        .visual-wrapper:hover .phone-mockup { transform: rotateY(-10deg) scale(1.05); }
+
+        .orbit {
+            position: absolute;
+            width: 380px;
+            height: 380px;
+            border: 1px dashed rgba(255,255,255,0.2);
+            border-radius: 50%;
+            animation: rotate 15s linear infinite;
+        }
+
+        .icon-item {
+            position: absolute;
+            width: 50px; height: 50px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2rem;
+            animation: reverse-rotate 15s linear infinite;
+        }
+
+        .icon-item:nth-child(1) { top: -25px; left: 50%; margin-left: -25px; }
+        .icon-item:nth-child(2) { bottom: -25px; left: 50%; margin-left: -25px; }
+        .icon-item:nth-child(3) { left: -25px; top: 50%; margin-top: -25px; }
+        .icon-item:nth-child(4) { right: -25px; top: 50%; margin-top: -25px; }
+
+        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes reverse-rotate { from { transform: rotate(0deg); } to { transform: rotate(-360deg); } }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+
+        /* --- SEARCH OVERLAY --- */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 26, 51, 0.98);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .search-box {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 500px;
+        }
+
+        input {
+            width: 100%;
+            padding: 15px;
+            margin-top: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 1rem;
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.2rem; }
+            .visual-wrapper { min-width: 100%; height: 400px; transform: scale(0.8); }
+            .cta-group { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+    <section class="hero-section">
+        <div class="container">
+            <div class="content">
+                <div class="brand">DigitalSolution®</div>
+                <h1>Banking Without <br><span>Timeouts.</span></h1>
+                <p>Switch to <strong>SMART-USSD</strong>. Securely access your bank via WhatsApp with instant receipts and 24/7 uptime.</p>
+                
+                <div class="cta-group">
+                    <button class="btn btn-search" onclick="toggleSearch(true)">Search for SMART USSD</button>
+                    <a href="https://wa.me/2348157505037?text=*5050*ACTIVATE%23" class="btn btn-activate pulse" onclick="trackClick()">Activate SmartUSSD</a>
+                </div>
+            </div>
+
+            <div class="visual-wrapper">
+                <div class="phone-mockup">
+                    <div style="padding: 20px; color: #003366; font-weight: bold; text-align: center; margin-top: 50px;">
+                        WhatsApp <br> Warehouse <br> Active ✅
+                    </div>
+                </div>
+                <div class="orbit">
+                    <div class="icon-item">💰</div>
+                    <div class="icon-item">🧾</div>
+                    <div class="icon-item">🔐</div>
+                    <div class="icon-item">⚡</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="overlay" id="searchOverlay">
+        <div class="search-box">
+            <h2 style="color: var(--primary)">Find Your Bank Code</h2>
+            <p style="font-size: 0.9rem; color: #666;">Enter your bank name to get your SMART-USSD link.</p>
+            <input type="text" placeholder="e.g. Zenith, GTB, Access..." id="searchInput">
+            <button class="btn btn-activate" style="width: 100%; margin-top: 15px;" onclick="toggleSearch(false)">Close</button>
+        </div>
     </div>
 
-    <div class="cta-card primary">
-        <p>Dial <strong>*5050#</strong> or Click below</p>
-        <a href="https://wa.me/2348157505037?text=*5050*ACTIVATE%23" class="btn pulse">Activate SmartUSSD</a>
-    </div>
-</div>
+    <script>
+        // --- JAVASCRIPT LOGIC ---
+        function toggleSearch(show) {
+            const overlay = document.getElementById('searchOverlay');
+            overlay.style.display = show ? 'flex' : 'none';
+        }
 
-<div id="searchOverlay" class="search-overlay">
-    <div class="search-content">
-        <span class="close-btn" onclick="closeSearch()">&times;</span>
-        <h2>Search for your Bank Code</h2>
-        <input type="text" id="bankSearch" placeholder="Type your bank name (e.g. Zenith, GTB)..." onkeyup="filterBanks()">
-        <ul id="bankList">
-            <li>Zenith Bank - *5050*96#</li>
-            <li>GTBank - *5050*737#</li>
-            <li>Access Bank - *5050*901#</li>
-            <li>UBA - *5050*919#</li>
-        </ul>
-    </div>
-</div>
+        function trackClick() {
+            // Placeholder for analytics or redirection logic
+            console.log("Activation Triggered");
+            // Optionally redirect to success page after a delay
+            setTimeout(() => {
+                window.location.href = "success.html"; 
+            }, 1500);
+        }
+
+        // Close overlay on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === "Escape") toggleSearch(false);
+        });
+    </script>
+</body>
+</html>
