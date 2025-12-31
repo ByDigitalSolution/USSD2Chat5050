@@ -6,33 +6,52 @@
     <title>DigitalSolution® | *5050# SMART-USSD</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        /* --- CSS STYLES --- */
         :root {
             --primary: #003366;
             --secondary: #25D366;
-            --dark: #001021;
-            --light: #f8fafc;
+            --neon: #39FF14;
+            --dark-bg: #001021;
+            --light-bg: #f8fafc;
+            --text-main: #ffffff;
+            --instruction-bg: rgba(255, 255, 255, 0.05);
+            --phone-border: #1a1a1a;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            font-family: 'Poppins', sans-serif; 
-            background: var(--light); 
-            color: #333; 
-            overflow-x: hidden; 
+        /* LIGHT MODE OVERRIDES */
+        body.light-theme {
+            --dark-bg: #f8fafc;
+            --primary: #e2e8f0;
+            --text-main: #001021;
+            --instruction-bg: rgba(0, 51, 102, 0.05);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; transition: background 0.3s, color 0.3s; }
+        body { font-family: 'Poppins', sans-serif; background: var(--dark-bg); color: var(--text-main); overflow-x: hidden; }
+
+        /* THEME TOGGLE BUTTON */
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: var(--secondary);
+            border: none;
+            padding: 10px 15px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
         }
 
         .hero-section {
             min-height: 100vh;
             display: flex;
             align-items: center;
-            background: linear-gradient(135deg, var(--dark) 0%, var(--primary) 100%);
-            color: white;
-            padding: 80px 5%;
+            padding: 60px 5%;
         }
 
         .container {
-            max-width: 1400px;
+            max-width: 1300px;
             margin: 0 auto;
             display: flex;
             align-items: center;
@@ -41,284 +60,120 @@
             flex-wrap: wrap;
         }
 
-        /* --- CONTENT SECTION --- */
-        .content { 
-            flex: 1; 
-            min-width: 350px; 
-            z-index: 5;
-        }
-
-        .brand { 
-            font-weight: 900; 
-            font-size: 1.4rem; 
-            color: var(--secondary); 
-            margin-bottom: 15px; 
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-
-        h1 { 
-            font-size: clamp(2.5rem, 5vw, 4.5rem); /* Responsive fluid typography */
-            font-weight: 900; 
-            line-height: 1.1; 
-            margin-bottom: 25px; 
-            letter-spacing: -1px;
-        }
-
+        .content { flex: 1; min-width: 320px; z-index: 5; }
+        .brand { font-weight: 900; font-size: 1.2rem; color: var(--secondary); margin-bottom: 10px; text-transform: uppercase; }
+        h1 { font-size: clamp(2.2rem, 5vw, 4rem); font-weight: 900; line-height: 1.1; margin-bottom: 15px; }
         h1 span { color: var(--secondary); }
 
-        p.hero-subtext {
-            font-size: 1.2rem;
-            line-height: 1.6;
-            margin-bottom: 40px;
-            opacity: 0.9;
-            max-width: 550px;
+        .instruction-box {
+            background: var(--instruction-bg);
+            border-left: 4px solid var(--secondary);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 10px 10px 0;
         }
 
-        /* --- CTA BUTTONS --- */
-        .cta-group {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-
-        .btn {
-            padding: 20px 40px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 800;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            border: none;
+        .dial-text {
+            font-size: 3rem; font-weight: 900; color: var(--text-main);
+            background: rgba(255,255,255,0.1); padding: 5px 25px;
+            border-radius: 15px; border: 3px solid var(--secondary);
+            animation: textPulse 2s infinite;
             display: inline-block;
-            text-align: center;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            margin-bottom: 20px;
         }
 
-        .btn-activate {
-            background: var(--secondary);
-            color: white;
-            box-shadow: 0 10px 25px rgba(37, 211, 102, 0.4);
-        }
-
-        .btn-search {
-            background: transparent;
-            border: 2px solid rgba(255,255,255,0.4);
-            color: white;
-        }
-
-        .btn:hover { 
-            transform: translateY(-5px); 
-            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
-            border-color: white;
-        }
-
-        .pulse { animation: pulse-animation 2s infinite; }
-        @keyframes pulse-animation {
-            0% { box-shadow: 0 0 0 0px rgba(37, 211, 102, 0.5); }
-            70% { box-shadow: 0 0 0 20px rgba(37, 211, 102, 0); }
+        @keyframes textPulse {
+            0% { box-shadow: 0 0 0 0px rgba(37, 211, 102, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
             100% { box-shadow: 0 0 0 0px rgba(37, 211, 102, 0); }
         }
 
-        /* --- MASSIVE PHONE MOCKUP & ORBIT --- */
-        .visual-wrapper {
-            flex: 1.2;
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-width: 450px;
-            height: 700px;
+        .cta-group { display: flex; gap: 10px; margin-top: 10px; }
+        .btn {
+            flex: 1; padding: 18px 10px; border-radius: 50px;
+            text-decoration: none; font-weight: 800; font-size: 0.85rem;
+            border: none; text-align: center; text-transform: uppercase;
         }
+        .btn-activate { background: var(--secondary); color: white; }
+        .btn-search { background: transparent; border: 2px solid var(--secondary); color: var(--secondary); }
 
+        /* --- NEON DARK PHONE --- */
+        .visual-wrapper { flex: 1; position: relative; display: flex; justify-content: center; align-items: center; min-width: 400px; height: 600px; }
         .phone-mockup {
-            width: 300px; /* Bigger Phone */
-            height: 600px;
-            background: #fff;
-            border: 12px solid #111;
-            border-radius: 45px;
-            z-index: 10;
-            position: relative;
-            animation: float 5s ease-in-out infinite;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            box-shadow: 0 50px 80px rgba(0,0,0,0.5);
+            width: 280px; height: 530px; background: #0b141a; 
+            border: 10px solid var(--phone-border); border-radius: 40px; z-index: 10;
+            overflow: hidden; display: flex; flex-direction: column;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
         }
 
-        /* Phone Screen Content */
-        .phone-screen {
-            background: #E5DDD5; /* WhatsApp BG Color */
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            text-align: center;
+        .chat-area { flex: 1; padding: 20px; display: flex; flex-direction: column; gap: 15px; }
+        .msg { padding: 12px; border-radius: 15px; font-size: 0.85rem; max-width: 85%; opacity: 0; }
+        .msg-user { background: #005c4b; color: white; align-self: flex-end; animation: msgFade 6s infinite; }
+        .msg-bot { background: var(--neon); color: black; align-self: flex-start; animation: msgFade 6s infinite 2s; box-shadow: 0 0 15px var(--neon); font-weight: bold;}
+
+        @keyframes msgFade {
+            0%, 10% { opacity: 0; transform: translateY(10px); }
+            20%, 80% { opacity: 1; transform: translateY(0); }
+            100% { opacity: 0; }
         }
 
-        .orbit {
-            position: absolute;
-            width: 500px; /* Scaled to match bigger phone */
-            height: 500px;
-            border: 2px dashed rgba(255,255,255,0.15);
-            border-radius: 50%;
-            animation: rotate 20s linear infinite;
-        }
-
-        .icon-item {
-            position: absolute;
-            width: 70px; 
-            height: 70px;
-            background: white;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 2rem;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-            animation: reverse-rotate 20s linear infinite;
-            transition: 0.3s;
-        }
-
-        .visual-wrapper:hover .icon-item {
-            transform: scale(1.2);
-            background: var(--secondary);
-            color: white;
-        }
-
-        /* Icon Positioning */
-        .icon-item:nth-child(1) { top: -35px; left: 50%; margin-left: -35px; }
-        .icon-item:nth-child(2) { bottom: -35px; left: 50%; margin-left: -35px; }
-        .icon-item:nth-child(3) { left: -35px; top: 50%; margin-top: -35px; }
-        .icon-item:nth-child(4) { right: -35px; top: 50%; margin-top: -35px; }
+        .orbit { position: absolute; width: 450px; height: 450px; border: 2px dashed var(--secondary); border-radius: 50%; animation: rotate 20s linear infinite; opacity: 0.3; }
+        .icon-item { position: absolute; width: 50px; height: 50px; background: white; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 1.5rem; animation: reverse-rotate 20s linear infinite; }
 
         @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         @keyframes reverse-rotate { from { transform: rotate(0deg); } to { transform: rotate(-360deg); } }
-        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-30px); } }
 
-        /* --- SEARCH OVERLAY --- */
-        .overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 16, 33, 0.98);
-            z-index: 100;
-            justify-content: center;
-            align-items: center;
-            backdrop-filter: blur(10px);
-        }
-
-        .search-box {
-            background: white;
-            padding: 50px;
-            border-radius: 30px;
-            width: 90%;
-            max-width: 600px;
-            text-align: center;
-        }
-
-        input {
-            width: 100%;
-            padding: 20px;
-            margin-top: 25px;
-            border: 2px solid #eee;
-            border-radius: 15px;
-            font-size: 1.1rem;
-            outline: none;
-        }
-
-        input:focus { border-color: var(--primary); }
-
-        /* --- MOBILE RESPONSIVE --- */
-        @media (max-width: 992px) {
-            .hero-section { padding-top: 50px; text-align: center; }
-            .container { justify-content: center; }
-            .content { order: 1; }
-            .visual-wrapper { 
-                order: 2; 
-                min-width: 100%; 
-                height: 550px; 
-                transform: scale(0.8); 
-                margin-top: -50px;
-            }
-            .cta-group { justify-content: center; }
-            p.hero-subtext { margin-left: auto; margin-right: auto; }
-        }
-
-        @media (max-width: 480px) {
-            h1 { font-size: 2.8rem; }
-            .visual-wrapper { transform: scale(0.65); height: 450px; }
-            .btn { width: 100%; }
+        @media (max-width: 768px) {
+            .visual-wrapper { min-width: 100%; height: 450px; transform: scale(0.7); }
+            .theme-toggle { top: auto; bottom: 20px; }
         }
     </style>
 </head>
 <body>
 
+    <button class="theme-toggle" onclick="toggleTheme()">🌓 Switch Theme</button>
+
     <section class="hero-section">
         <div class="container">
             <div class="content">
                 <div class="brand">DigitalSolution®</div>
-                <h1>Fast Banking.<br><span>No Timeouts.</span></h1>
-                <p class="hero-subtext">Experience the SMART-USSD Warehouse. Move your banking from messy codes to a clean WhatsApp chat. Always active, always secure.</p>
+                <h1>Fast Banking.<br><span>Neon Mode.</span></h1>
+                
+                <div class="dial-text">*5050#</div>
+
+                <div class="instruction-box">
+                    <p>Activation Command:</p>
+                    <h2>*5050*ACTIVATE# to +2348157505037</h2>
+                </div>
                 
                 <div class="cta-group">
-                    <a href="https://wa.me/2348157505037?text=*5050*ACTIVATE%23" class="btn btn-activate pulse" onclick="trackClick()">Activate SmartUSSD</a>
-                    <button class="btn btn-search" onclick="toggleSearch(true)">Search for Bank Code</button>
+                    <a href="https://wa.me/2348157505037?text=*5050*ACTIVATE%23" class="btn btn-activate">Activate Now</a>
+                    <button class="btn btn-search">Search Code</button>
                 </div>
             </div>
 
             <div class="visual-wrapper">
                 <div class="phone-mockup">
-                    <div style="background: var(--primary); color: white; padding: 15px; font-weight: bold;">DigitalSolution Chat</div>
-                    <div class="phone-screen">
-                        <div style="background: white; padding: 15px; border-radius: 10px; box-shadow: 0 5px 10px rgba(0,0,0,0.1); margin-bottom: 20px;">
-                            <p style="font-size: 0.8rem; color: #888;">Today 12:45 PM</p>
-                            <p style="font-weight: bold; color: var(--primary);">*5050*ACTIVATE#</p>
-                        </div>
-                        <div style="background: #DCF8C6; padding: 15px; border-radius: 10px; align-self: flex-start; text-align: left;">
-                            <p>Welcome! Your SMART-USSD is active. How can we help today? 🚀</p>
-                        </div>
+                    <div style="background: #202c33; color: white; padding: 10px; font-size: 0.8rem;">DigitalSolution Bot</div>
+                    <div class="chat-area">
+                        <div class="msg msg-user">*5050*ACTIVATE#</div>
+                        <div class="msg msg-bot">Success! Your SMART-USSD Warehouse is LIVE ⚡</div>
                     </div>
                 </div>
                 <div class="orbit">
-                    <div class="icon-item">💰</div>
-                    <div class="icon-item">🧾</div>
-                    <div class="icon-item">🔐</div>
-                    <div class="icon-item">🏦</div>
+                    <div class="icon-item" style="top: -25px; left: 50%; margin-left: -25px;">💰</div>
+                    <div class="icon-item" style="bottom: -25px; left: 50%; margin-left: -25px;">🧾</div>
+                    <div class="icon-item" style="left: -25px; top: 50%; margin-top: -25px;">🔐</div>
+                    <div class="icon-item" style="right: -25px; top: 50%; margin-top: -25px;">🏦</div>
                 </div>
             </div>
         </div>
     </section>
 
-    <div class="overlay" id="searchOverlay">
-        <div class="search-box">
-            <h2 style="color: var(--primary); font-weight: 900; font-size: 2rem;">Find Your Code</h2>
-            <p>Enter your bank name to get your direct activation link.</p>
-            <input type="text" placeholder="e.g. Zenith, GTB, First Bank..." id="searchInput">
-            <button class="btn btn-activate" style="width: 100%; margin-top: 20px;" onclick="toggleSearch(false)">Close Search</button>
-        </div>
-    </div>
-
     <script>
-        function toggleSearch(show) {
-            const overlay = document.getElementById('searchOverlay');
-            overlay.style.display = show ? 'flex' : 'none';
+        function toggleTheme() {
+            document.body.classList.toggle('light-theme');
         }
-
-        function trackClick() {
-            // Delay to allow WhatsApp to open before redirecting browser to success page
-            setTimeout(() => {
-                window.location.href = "success.html"; 
-            }, 1000);
-        }
-
-        document.addEventListener('keydown', (e) => {
-            if (e.key === "Escape") toggleSearch(false);
-        });
     </script>
 </body>
 </html>
