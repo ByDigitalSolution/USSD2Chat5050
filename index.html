@@ -11,15 +11,12 @@
             --secondary: #25D366;
             --neon: #39FF14;
             --dark-bg: #001021;
-            --light-bg: #f8fafc;
             --text-main: #ffffff;
             --instruction-bg: rgba(255, 255, 255, 0.05);
-            --phone-border: #1a1a1a;
         }
 
         body.light-theme {
             --dark-bg: #f8fafc;
-            --primary: #e2e8f0;
             --text-main: #001021;
             --instruction-bg: rgba(0, 51, 102, 0.05);
         }
@@ -27,15 +24,23 @@
         * { margin: 0; padding: 0; box-sizing: border-box; transition: background 0.3s, color 0.3s; }
         body { font-family: 'Poppins', sans-serif; background: var(--dark-bg); color: var(--text-main); overflow-x: hidden; }
 
-        .theme-toggle {
-            position: fixed; top: 20px; right: 20px; z-index: 1000;
-            background: var(--secondary); border: none; padding: 10px 15px;
-            border-radius: 30px; cursor: pointer; font-weight: bold;
+        /* --- REDIRECT LOADER --- */
+        #loader {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 16, 33, 0.9); z-index: 3000;
+            flex-direction: column; justify-content: center; align-items: center;
+            backdrop-filter: blur(10px);
         }
+        .spinner {
+            width: 50px; height: 50px; border: 5px solid rgba(255,255,255,0.1);
+            border-top: 5px solid var(--neon); border-radius: 50%;
+            animation: spin 1s linear infinite; margin-bottom: 20px;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
+        /* --- LAYOUT --- */
         .hero-section { min-height: 100vh; display: flex; align-items: center; padding: 60px 5%; }
         .container { max-width: 1300px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 40px; flex-wrap: wrap; }
-
         .content { flex: 1; min-width: 320px; z-index: 5; }
         h1 { font-size: clamp(2.2rem, 5vw, 4rem); font-weight: 900; line-height: 1.1; margin-bottom: 15px; }
         h1 span { color: var(--secondary); }
@@ -45,7 +50,7 @@
             padding: 15px; margin: 20px 0; border-radius: 0 10px 10px 0;
         }
 
-        /* --- BUTTON STYLES --- */
+        /* --- BUTTONS --- */
         .cta-group { display: flex; gap: 10px; margin-top: 20px; }
         .btn {
             flex: 1; padding: 18px 10px; border-radius: 50px;
@@ -59,46 +64,34 @@
         .visual-wrapper { flex: 1; position: relative; display: flex; justify-content: center; align-items: center; min-width: 400px; height: 600px; }
         .phone-mockup {
             width: 280px; height: 530px; background: #0b141a; 
-            border: 10px solid var(--phone-border); border-radius: 40px; z-index: 10;
+            border: 10px solid #1a1a1a; border-radius: 40px; z-index: 10;
             overflow: hidden; display: flex; flex-direction: column;
         }
-
-        .chat-area { flex: 1; padding: 20px; display: flex; flex-direction: column; gap: 15px; }
-        .msg { padding: 12px; border-radius: 15px; font-size: 0.85rem; max-width: 85%; opacity: 0; }
+        .msg { padding: 12px; border-radius: 15px; font-size: 0.85rem; max-width: 85%; opacity: 0; margin: 10px; }
         .msg-user { background: #005c4b; color: white; align-self: flex-end; animation: msgFade 6s infinite; }
         .msg-bot { background: var(--neon); color: black; align-self: flex-start; animation: msgFade 6s infinite 2s; font-weight: bold; }
+        @keyframes msgFade { 0%, 10% { opacity: 0; transform: translateY(10px); } 20%, 80% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; } }
 
-        @keyframes msgFade {
-            0%, 10% { opacity: 0; transform: translateY(10px); }
-            20%, 80% { opacity: 1; transform: translateY(0); }
-            100% { opacity: 0; }
-        }
-
-        /* --- SEARCH OVERLAY --- */
+        /* --- OVERLAY --- */
         .overlay {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 16, 33, 0.95); z-index: 2000;
-            justify-content: center; align-items: center; backdrop-filter: blur(8px);
+            background: rgba(0, 16, 33, 0.95); z-index: 2000; justify-content: center; align-items: center;
         }
         .search-box { background: white; padding: 40px; border-radius: 25px; width: 90%; max-width: 500px; text-align: center; color: #333; }
-
-        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        .orbit { position: absolute; width: 450px; height: 450px; border: 2px dashed var(--secondary); border-radius: 50%; animation: rotate 20s linear infinite; opacity: 0.3; }
-
-        @media (max-width: 768px) {
-            .visual-wrapper { min-width: 100%; height: 400px; transform: scale(0.7); }
-        }
     </style>
 </head>
-<body class="dark-theme">
+<body>
 
-    <button class="theme-toggle" onclick="toggleTheme()">🌓 Theme</button>
+    <div id="loader">
+        <div class="spinner"></div>
+        <p style="color: white; font-weight: bold; letter-spacing: 1px;">Redirecting...</p>
+    </div>
 
     <section class="hero-section">
         <div class="container">
             <div class="content">
                 <div class="brand">DigitalSolution®</div>
-                <h1>Fast Banking.<br><span>Go Smart.</span></h1>
+                <h1>Smart USSD.<br><span>Global Access.</span></h1>
                 
                 <div class="instruction-box">
                     <p>Activation Direct Line:</p>
@@ -106,7 +99,7 @@
                 </div>
                 
                 <div class="cta-group">
-                    <a href="https://gocbt.gemquests.com" class="btn btn-activate">Activate SmartUSSD</a>
+                    <button class="btn btn-activate" onclick="handleRedirect('https://gocbt.gemquests.com')">Activate SmartUSSD</button>
                     <button class="btn btn-search" onclick="openSearch()">Search for USSD</button>
                 </div>
             </div>
@@ -114,34 +107,33 @@
             <div class="visual-wrapper">
                 <div class="phone-mockup">
                     <div style="background: #202c33; color: white; padding: 10px; font-size: 0.8rem;">GemQuests AI Bot</div>
-                    <div class="chat-area">
+                    <div style="display:flex; flex-direction:column; padding:10px;">
                         <div class="msg msg-user">*5050*ACTIVATE#</div>
-                        <div class="msg msg-bot">Redirecting to Activation Portal... ⚡</div>
+                        <div class="msg msg-bot">Connecting to portal... ⚡</div>
                     </div>
                 </div>
-                <div class="orbit"></div>
             </div>
         </div>
     </section>
 
     <div class="overlay" id="searchOverlay">
         <div class="search-box">
-            <h2 style="margin-bottom: 10px;">USSD Directory</h2>
-            <p>Looking for a specific bank code?</p>
-            <input type="text" placeholder="Enter Bank Name..." style="width: 100%; padding: 15px; margin: 20px 0; border-radius: 10px; border: 1px solid #ddd;">
-            
-            <button class="btn btn-activate" onclick="redirectSearch()" style="width: 100%;">Close & View All Codes</button>
+            <h2>USSD Directory</h2>
+            <p>Access our full database of codes.</p>
+            <button class="btn btn-activate" onclick="handleRedirect('https://ussdsearch.com')" style="width: 100%; margin-top: 20px;">Close & View Codes</button>
         </div>
     </div>
 
     <script>
-        function toggleTheme() { document.body.classList.toggle('light-theme'); }
-        
         function openSearch() { document.getElementById('searchOverlay').style.display = 'flex'; }
-        
-        // Custom redirect for the close button
-        function redirectSearch() {
-            window.location.href = "https://ussdsearch.com";
+
+        function handleRedirect(url) {
+            // Show the loader
+            document.getElementById('loader').style.display = 'flex';
+            // Wait 1 second for visual effect, then redirect
+            setTimeout(() => {
+                window.location.href = url;
+            }, 1000);
         }
     </script>
 </body>
